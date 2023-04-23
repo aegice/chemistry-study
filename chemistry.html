@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>화학 원소 번호, 원소 기호 외우기</title>
+    <link rel="stylesheet" href="./css/import.css">
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <script>
+        function rand(num) {
+            return Math.floor(Math.random() * num) + 1;
+        }
+
+        $(document).ready(function(){
+            var chemistry = ['수소', '헬륨', '리튬', '베릴륨', '붕소', '탄소', '질소', '산소', '플루오린', '네온', '나트륨', '마그네슘', '알루미늄', '규소', '인', '황', '염소', '아르곤', '칼륨', '칼슘'];
+            var number;
+            $('.wrap button').click(function(){
+                $('.wrap button').css('display', 'none');
+                $('.wrap').css('background-color', 'black');
+                $('.chemical').css('display', 'flex');
+                number = rand(20);
+                if($(this).attr('data-chemistry') == 'symb'){
+                    $('.chemical section').html(chemistry[number - 1]);
+                    $('.chemical section').addClass('symb')
+                } else{
+                    $('.chemical section').html(number);
+                    $('.chemical section').addClass('numb');
+                }
+            });
+
+            $('#answer').change(function(){
+                var answer = $('#answer').val();
+                if($('.chemical section').hasClass('symb')){
+                    if(answer == number){
+                        alert('정답!!');
+                        $('.chemical section').removeClass('symb');
+                    } else{
+                        alert('틀림!!');
+                    }
+                } else{
+                    if(answer == chemistry[number-1]){
+                        alert('정답!!')
+                        $('.chemical section').removeClass('numb');
+                    } else{
+                        alert('틀림!!');
+                    }
+                }
+
+                if($('.chemical section').hasClass('symb') || $('.chemical section').hasClass('numb')){
+                    $('.chemical').css('display', 'flex');
+                    $('#answer').val('');
+                } else{
+                    $('.chemical').css('display', 'none');
+                    $('.wrap').css('background-color', 'white');
+                    $('.wrap button').css('display', 'inline-block');
+                    $('#answer').val('');
+                }
+            });
+
+            
+        });
+    </script>
+</head>
+<body>
+    <div class="wrap">
+        <button data-chemistry="symb">원소기호</button> 
+        <button data-chemistry="numb">원소번호</button>
+
+        <section class="chemical">
+            <section></section>    
+            <p>정답 : <input type="text" name="answer" id="answer"></p>
+        </section>
+    </div>
+</body>
+</html>
